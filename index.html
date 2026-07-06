@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Family Homestead Property Research</title>
+  <meta name="description" content="Regional decision framework and search playbook for a multi-generational family homestead." />
+  <link rel="canonical" href="https://family-homestead-search.vercel.app/" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    nav a:hover { text-decoration: underline; }
+    @media (min-width: 768px) {
+      .toc-sticky { position: sticky; top: 1rem; max-height: 90vh; overflow-y: auto; }
+    }
+    .checklist-item input:checked + span { text-decoration: line-through; opacity: 0.5; }
+  </style>
+</head>
+<body class="bg-zinc-50 text-zinc-900">
+  <header class="sticky top-0 z-10 border-b border-zinc-200 bg-white/90 backdrop-blur shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
+      <h1 class="text-xl font-semibold tracking-tight">Family Homestead Search</h1>
+      <nav class="hidden sm:flex gap-4 text-sm text-zinc-600">
+        <a href="#summary">Summary</a>
+        <a href="#regions">Regions</a>
+        <a href="#playbook">Playbook</a>
+        <a href="#checklist">Checklist</a>
+      </nav>
+      <button id="menu-toggle" class="sm:hidden text-sm text-zinc-600 border border-zinc-300 px-2 py-1 rounded">Menu</button>
+    </div>
+  </header>
+
+  <div id="mobile-nav" class="hidden sm:hidden bg-zinc-50 border-b border-zinc-200 p-4">
+    <nav class="flex flex-col gap-2 text-sm text-zinc-600">
+      <a href="#summary">Summary</a>
+      <a href="#regions">Regions</a>
+      <a href="#playbook">Playbook</a>
+      <a href="#checklist">Checklist</a>
+    </nav>
+  </div>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 grid gap-12 md:grid-cols-[1fr_minmax(220px,260px)]">
+    <div class="contents">
+      <div class="space-y-10">
+        <section id="summary" class="scroll-mt-16">
+          <h2 class="text-2xl font-semibold mb-3">Research Summary</h2>
+          <p class="mb-4">This page summarizes a geographic decision framework and search playbook for a multi-generational family homestead matching your criteria:</p>
+          <ul class="list-disc pl-6 space-y-1 mb-6 text-zinc-700">
+            <li>5+ acres with fresh water (stream/creek/river/lake)</li>
+            <li>Two full homes (or build one)</li>
+            <li>Fertile soil for growing</li>
+            <li>Within 1 hour of Costco, 10 minutes to a small town</li>
+            <li>Low fire/flood/quake risk, low crime</li>
+            <li>Utility access</li>
+            <li>Budget under $800K</li>
+            <li>Avoid subarctic regions</li>
+          </ul>
+
+          <h3 class="text-lg font-semibold mb-2">What Can Be Verified Remotely vs. Boots on Ground</h3>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm border border-zinc-300 rounded">
+              <thead class="bg-zinc-100">
+                <tr>
+                  <th class="px-3 py-2 text-left font-medium">Can verify well</th>
+                  <th class="px-3 py-2 text-left font-medium">Hard to verify without boots on ground</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-t border-zinc-200">
+                  <td class="px-3 py-2">
+                    <ul class="list-disc pl-5">
+                      <li>Multi-state disaster risk profiles (FEMA NRI, USFS WHP, USGS seismic hazard)</li>
+                      <li>Soil quality for candidate regions (NRCS SSURGO)</li>
+                      <li>Costco distribution + drive-time ranges</li>
+                      <li>Crime statistics by county (FBI UCR)</li>
+                      <li>Building code / utility availability by region</li>
+                    </ul>
+                  </td>
+                  <td class="px-3 py-2">
+                    <ul class="list-disc pl-5">
+                      <li>Specific flood zone on a specific parcel ID</li>
+                      <li>Live, accurate listing inventory (sites throttle/scrap-resistant)</li>
+                      <li>"Creek frontage" claims in listing descriptions</li>
+                      <li>Actual property condition, easements, water rights</li>
+                      <li>Final flood-zone / easement / water-right verification</li>
+                    </ul>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="regions" class="scroll-mt-16">
+          <h2 class="text-2xl font-semibold mb-3">Candidate Regions (Tiered)</h2>
+
+          <h3 class="text-lg font-semibold mt-6 mb-2 text-zinc-800">Tier 1 — Strongest Fit</h3>
+
+          <div class="space-y-8">
+            <article class="border border-zinc-300 rounded-lg p-4 bg-white shadow-sm">
+              <h4 class="font-semibold text-base mb-2">A. Middle Tennessee (Dickson / Humphreys / Hickman / Maury counties)</h4>
+              <ul class="text-sm text-zinc-700 space-y-1 list-disc pl-5 mb-3">
+                <li><strong>Hazards:</strong> FEMA NRI "Relatively Low" overall; almost no WUI risk; tornado risk moderate but mitigation is well-established; zero seismic concern</li>
+                <li><strong>Costco:</strong> ~35–55 min to Nashville (Mt. Juliet location), Brentwood, Cool Springs</li>
+                <li><strong>Soil:</strong> Maury silt loam — limestone-derived, exceptional fertility (brushy tobacco/grazing land historically)</li>
+                <li><strong>Small town within 10min:</strong> Dickson (pop 16k), Centerville, Waverly — check</li>
+                <li><strong>Crime:</strong> Below national avg for property crime, moderate violent crime (verify county-by-county)</li>
+                <li><strong>Utilities:</strong> Electric (TVA), water (mostly municipal/utility district), fiber in pockets — generally good</li>
+                <li><strong>Inventory:</strong> Two-homes-on-property is legitimately common here — multigenerational properties listing inventory is healthy under $800K</li>
+              </ul>
+              <p class="text-xs text-zinc-500 italic">This region checks the most boxes and has the strongest inventory of two-home properties.</p>
+            </article>
+
+            <article class="border border-zinc-300 rounded-lg p-4 bg-white shadow-sm">
+              <h4 class="font-semibold text-base mb-2">B. Kentucky Bluegrass Edge Zone (Bourbon / Scott / Woodford / Anderson / Shelby counties)</h4>
+              <ul class="text-sm text-zinc-700 space-y-1 list-disc pl-5 mb-3">
+                <li><strong>Hazards:</strong> Very low overall; minimal WUI; mild seismic risk (New Madrid zone is west of here — central KY itself is stable)</li>
+                <li><strong>Costco:</strong> Lexington (40–60 min from rural Bourbon/Anderson); Louisville (also reachable)</li>
+                <li><strong>Soil:</strong> Outer Bluegrass fringe = Maury/Pembroke silt loam, very productive</li>
+                <li><strong>Small town within 10min:</strong> Versailles, Georgetown, Shelbyville — check</li>
+                <li><strong>Crime:</strong> Generally low; Bourbon County very low</li>
+                <li><strong>Utilities:</strong> Solid (LG&E/KU electric, municipal + county water)</li>
+                <li><strong>Inventory:</strong> 5–10 acre parcels with farmhouse + guest cottage are common; under $800K is achievable if not in core horse-farm belt (Woodford core is $$$)</li>
+              </ul>
+            </article>
+
+            <article class="border border-zinc-300 rounded-lg p-4 bg-white shadow-sm">
+              <h4 class="font-semibold text-base mb-2">C. Virginia Southside / Piedmont Edge (Campbell / Appomattox / Charlotte / Halifax counties)</h4>
+              <ul class="text-sm text-zinc-700 space-y-1 list-disc pl-5 mb-3">
+                <li><strong>Hazards:</strong> Low-moderate; minor seismic risk; no WUI coastal flood; tornado risk moderate</li>
+                <li><strong>Costco:</strong> Lynchburg (in-coverage from Appomattox/Campbell), Roanoke (for Halifax)</li>
+                <li><strong>Soil:</strong> Cecil/Piedmont silt loams — moderately to highly productive; tobacco/row crop historically</li>
+                <li><strong>Small town within 10min:</strong> Appomattox, Rustburg, Halifax, Charlotte Court House — check</li>
+                <li><strong>Crime:</strong> Generally low (rural Appomattox county very low)</li>
+                <li><strong>Utilities:</strong> AEP electric, municipal water, broadband improving</li>
+                <li><strong>Inventory:</strong> Available but smaller pool than Tennessee</li>
+              </ul>
+            </article>
+          </div>
+
+          <h3 class="text-lg font-semibold mt-8 mb-2 text-zinc-800">Tier 2 — Solid but With Caveats</h3>
+
+          <div class="space-y-8">
+            <article class="border border-zinc-300 rounded-lg p-4 bg-white shadow-sm">
+              <h4 class="font-semibold text-base mb-2">D. Western North Carolina Piedmont (Person / Caswell counties)</h4>
+              <ul class="text-sm text-zinc-700 space-y-1 list-disc pl-5 mb-3">
+                <li><strong>Hazards:</strong> Low overall; low seismic; no WUI (different from mountain counties)</li>
+                <li><strong>Costco:</strong> Durham (~50 min from Person), Burlington, or Greensboro</li>
+                <li><strong>Soil:</strong> Cecil/Appling sandy loams — moderately productive but better with cover-cropping</li>
+                <li><strong>Small town within 10min:</strong> Roxboro, Yanceyville — check</li>
+                <li><strong>Crime:</strong> Mixed; check specific parcel vicinity (Person Co generally low property crime)</li>
+                <li><strong>Utilities:</strong> Duke Energy; municipal water sparse — well water common; broadband improving</li>
+                <li><strong>Caveat:</strong> Mountain counties west of here have WUI fire risk — Piedmont is right</li>
+              </ul>
+            </article>
+
+            <article class="border border-zinc-300 rounded-lg p-4 bg-white shadow-sm">
+              <h4 class="font-semibold text-base mb-2">E. Central Texas Exclaves (Between Waco / College Station / Tyler)</h4>
+              <ul class="text-sm text-zinc-700 space-y-1 list-disc pl-5 mb-3">
+                <li><strong>Hazards:</strong> Moderate (flash flooding is the big one — verify flood plain carefully); minimal seismic; zero WUI</li>
+                <li><strong>Costco:</strong> Waco, College Station, Tyler — check walk</li>
+                <li><strong>Soil:</strong> Blackland prairie / Post Oak belt — extremely fertile when managed</li>
+                <li><strong>Small town within 10min:</strong> Most counties have one — yes</li>
+                <li><strong>Crime:</strong> Wide variance — McLennan Co is OK; East TX generally lower</li>
+                <li><strong>Utilities:</strong> Excellent (competitive electric market, municipal water)</li>
+                <li><strong>Caveat:</strong> Flood risk is the real concern — must be parcel-level verified; avoid creeks/river bottoms that FEMA pools onto 100-yr maps</li>
+              </ul>
+            </article>
+          </div>
+
+          <h3 class="text-lg font-semibold mt-8 mb-2 text-zinc-800">What I'd Actually Recommend</h3>
+          <p class="mb-4">If I had to pick one region to start exhaustive search in, it's <strong>Middle Tennessee (Tier 1A)</strong> — the combination of:</p>
+          <ul class="list-disc pl-6 space-y-1 text-zinc-700 mb-4">
+            <li>Genuinely fertile soil (rare — most "5-acre homesteads" are degraded)</li>
+            <li>Two-home multigenerational inventory is a local cultural pattern (not a unicorn)</li>
+            <li>Below-budget in most cases</li>
+            <li>Low multi-hazard profile</li>
+            <li>Costco-within-1hr is broadly achievable</li>
+          </ul>
+          <p class="text-sm text-zinc-600"><strong>Second choice:</strong> Kentucky Bluegrass fringe (if you want more rolling-pasture aesthetic and don't mind smaller "small town" feel).</p>
+        </section>
+
+        <section id="playbook" class="scroll-mt-16">
+          <h2 class="text-2xl font-semibold mb-3">Search Playbook</h2>
+          <p class="mb-4">Hand this to a buyer's agent or run yourself on the sites:</p>
+
+          <h3 class="text-lg font-semibold mt-6 mb-2">Listing-Site Queries That Filter Correctly</h3>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm border border-zinc-300 rounded">
+              <thead class="bg-zinc-100">
+                <tr>
+                  <th class="px-3 py-2 text-left font-medium">Site</th>
+                  <th class="px-3 py-2 text-left font-medium">Search</th>
+                  <th class="px-3 py-2 text-left font-medium">Why</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-t border-zinc-200">
+                  <td class="px-3 py-2 font-medium">Zillow</td>
+                  <td class="px-3 py-2">Tennessee land for sale 5+ acres guest house cottage creek stream</td>
+                  <td class="px-3 py-2">Filters acreage + accessory structure + water keyword</td>
+                </tr>
+                <tr class="border-t border-zinc-200">
+                  <td class="px-3 py-2 font-medium">LandWatch</td>
+                  <td class="px-3 py-2">Multi-generational property 5 acres creek pond &lt; $800k</td>
+                  <td class="px-3 py-2">Niche rural-land site, better filter granularity</td>
+                </tr>
+                <tr class="border-t border-zinc-200">
+                  <td class="px-3 py-2 font-medium">Land And Farm</td>
+                  <td class="px-3 py-2">Same as above</td>
+                  <td class="px-3 py-2">More ag-focused inventory</td>
+                </tr>
+                <tr class="border-t border-zinc-200">
+                  <td class="px-3 py-2 font-medium">Realtor.com</td>
+                  <td class="px-3 py-2">Multifamily / multi-generational home acreage TN KY VA</td>
+                  <td class="px-3 py-2">Better brokerage-listed inventory</td>
+                </tr>
+                <tr class="border-t border-zinc-200">
+                  <td class="px-3 py-2 font-medium">Facebook groups</td>
+                  <td class="px-3 py-2">"Multigenerational homestead" TN/KY/VA</td>
+                  <td class="px-3 py-2">FSBO inventory + owner-direct</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 class="text-lg font-semibold mt-8 mb-2">Concrete Saved-Search Alerts to Set Up Today</h3>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm border border-zinc-300 rounded">
+              <thead class="bg-zinc-100">
+                <tr>
+                  <th class="px-3 py-2 text-left font-medium">Site</th>
+                  <th class="px-3 py-2 text-left font-medium">Saved Search Setup</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-t border-zinc-200">
+                  <td class="px-3 py-2 font-medium">Zillow</td>
+                  <td class="px-3 py-2">"Tennessee multi family 5+ acres &lt; $800k" + email alerts ON</td>
+                </tr>
+                <tr class="border-t border-zinc-200">
+                  <td class="px-3 py-2 font-medium">LandWatch</td>
+                  <td class="px-3 py-2">Same multitab</td>
+                </tr>
+                <tr class="border-t border-zinc-200">
+                  <td class="px-3 py-2 font-medium">Realtor.com</td>
+                  <td class="px-3 py-2">Same</td>
+                </tr>
+                <tr class="border-t border-zinc-200">
+                  <td class="px-3 py-2 font-medium">Facebook Marketplace</td>
+                  <td class="px-3 py-2">Notification ON, radius 100mi around Dickson TN + Lexington KY + Lynchburg VA</td>
+                </tr>
+                <tr class="border-t border-zinc-200">
+                  <td class="px-3 py-2 font-medium">Trulia/Homes.com</td>
+                  <td class="px-3 py-2">For FSBO crossover</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="checklist" class="scroll-mt-16">
+          <h2 class="text-2xl font-semibold mb-3">Per-Property Verification Checklist</h2>
+          <p class="mb-4">For each candidate, pull this before visiting (boots-on-ground still required after):</p>
+          <ul class="space-y-3">
+            <li class="flex items-start gap-3 text-sm text-zinc-700">
+              <input type="checkbox" id="c1" class="mt-1.5 h-4 w-4 accent-zinc-600" />
+              <label for="c1" class="checklist-item flex-1"><span class="pl-2"><strong>FEMA flood map lookup</strong> — by parcel ID or address at <code class="text-xs bg-zinc-100 px-1 py-0.5 rounded">msc.fema.gov</code>. <em class="text-zinc-500">Mandatory. Avoid Zone A, AE, AO unless inside mitigation.</em></span></label>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-zinc-700">
+              <input type="checkbox" id="c2" class="mt-1.5 h-4 w-4 accent-zinc-600" />
+              <label for="c2" class="checklist-item flex-1"><span class="pl-2"><strong>USFS Wildfire Hazard Potential (WHP) layer</strong> — <code class="text-xs bg-zinc-100 px-1 py-0.5 rounded">usfs.app.box.com/v/wildfire-hazard-potential</code>. Cross-check; ideally "very low" or "low" overlay.</span></label>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-zinc-700">
+              <input type="checkbox" id="c3" class="mt-1.5 h-4 w-4 accent-zinc-600" />
+              <label for="c3" class="checklist-item flex-1"><span class="pl-2"><strong>USGS Seismic Hazard Map</strong> — confirm county falls in &lt;0.4g peak ground acceleration band.</span></label>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-zinc-700">
+              <input type="checkbox" id="c4" class="mt-1.5 h-4 w-4 accent-zinc-600" />
+              <label for="c4" class="checklist-item flex-1"><span class="pl-2"><strong>NRCS Web Soil Survey</strong> — <code class="text-xs bg-zinc-100 px-1 py-0.5 rounded">websoilsurvey.sc.egov.usda.gov</code>. Pull Capability Class. <em class="text-zinc-500">Class I–III is what you want for fertile ground (Class 4+ significantly limits).</em></span></label>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-zinc-700">
+              <input type="checkbox" id="c5" class="mt-1.5 h-4 w-4 accent-zinc-600" />
+              <label for="c5" class="checklist-item flex-1"><span class="pl-2"><strong>Crime</strong> — NeighborhoodScout + county sheriff UCR data, not the property listing.</span></label>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-zinc-700">
+              <input type="checkbox" id="c6" class="mt-1.5 h-4 w-4 accent-zinc-600" />
+              <label for="c6" class="checklist-item flex-1"><span class="pl-2"><strong>Water rights / stream access</strong> — verify "creek frontage" claims are deeded riparian rights, not just neighboring. Different states have different riparian vs. appropriative doctrines — Kentucky = riparian (more owner-friendly); Tennessee = riparian (mixed); Virginia = riparian + groundwater districts.</span></label>
+            </li>
+            <li class="flex items-start gap-3 text-sm text-zinc-700">
+              <input type="checkbox" id="c7" class="mt-1.5 h-4 w-4 accent-zinc-600" />
+              <label for="c7" class="checklist-item flex-1"><span class="pl-2"><strong>Utility verification</strong> — call the local electric co-op (TVA distributor in TN, AEP in VA, LG&E/KU in KY) for service address confirmation. Water = either municipal district or well permit; verify with the district office.</span></label>
+            </li>
+          </ul>
+          <p class="text-xs text-zinc-500 mt-4 italic">This checklist is for remote due diligence; on-site visits and professional survey/inspections remain essential.</p>
+        </section>
+      </div>
+
+      <aside class="hidden md:block space-y-6">
+        <div class="toc-sticky border border-zinc-300 rounded-lg p-4 bg-white shadow-sm text-sm">
+          <h3 class="font-semibold mb-2">On this page</h3>
+          <nav class="space-y-1">
+            <a href="#summary" class="block text-zinc-600 hover:text-zinc-900">Summary</a>
+            <a href="#regions" class="block text-zinc-600 hover:text-zinc-900">Regions (Tier 1 & 2)</a>
+            <a href="#playbook" class="block text-zinc-600 hover:text-zinc-900">Search Playbook</a>
+            <a href="#checklist" class="block text-zinc-600 hover:text-zinc-900">Verification Checklist</a>
+          </nav>
+        </div>
+        <div class="border border-zinc-300 rounded-lg p-4 bg-white shadow-sm text-xs text-zinc-600">
+          <p><strong>Last updated:</strong> 2026-07-06</p>
+          <p class="mt-2">This research is a decision framework and playbook. Final verification requires on-site visits, professional surveys, and local due diligence.</p>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="border-t border-zinc-200 mt-16 py-6 text-center text-sm text-zinc-600">
+    <p>Family Homestead Property Research · Regional Decision Framework & Search Playbook</p>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileNav = document.getElementById('mobile-nav');
+    menuToggle.addEventListener('click', () => {
+      mobileNav.classList.toggle('hidden');
+    });
+  </script>
+</body>
+</html>
