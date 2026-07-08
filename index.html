@@ -5,8 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Family Homestead Property Research</title>
   <meta name="description" content="Regional decision framework and search playbook for a multi-generational family homestead." />
-  <link rel="canonical" href="https://family-homestead-search.vercel.app/" />
+  <link rel="canonical" href="https://brettwrightsgithub.github.io/family-homestead-search/" />
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <style>
     html { scroll-behavior: smooth; }
     body { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
@@ -15,6 +19,19 @@
       .toc-sticky { position: sticky; top: 1rem; max-height: 90vh; overflow-y: auto; }
     }
     .checklist-item input:checked + span { text-decoration: line-through; opacity: 0.5; }
+    #map { height: 600px; border-radius: 0.5rem; border: 1px solid #d4d4d8; z-index: 1; }
+    .leaflet-popup-content { font-size: 13px; line-height: 1.5; }
+    .leaflet-popup-content-wrapper { border-radius: 8px; }
+    .layer-toggle { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+    .layer-toggle button {
+      padding: 6px 12px; border-radius: 6px; border: 1px solid #d4d4d8;
+      background: white; font-size: 12px; cursor: pointer; transition: all 0.15s;
+    }
+    .layer-toggle button:hover { background: #f4f4f5; }
+    .layer-toggle button.active { background: #18181b; color: white; border-color: #18181b; }
+    .legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; }
+    .legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+    .legend-swatch { width: 18px; height: 12px; border-radius: 3px; flex-shrink: 0; border: 1px solid #ccc; }
   </style>
 </head>
 <body class="bg-zinc-50 text-zinc-900">
@@ -24,6 +41,8 @@
       <nav class="hidden sm:flex gap-4 text-sm text-zinc-600">
         <a href="#summary">Summary</a>
         <a href="#regions">Regions</a>
+        <a href="#map-section">Map</a>
+        <a href="#priorities">Priorities</a>
         <a href="#playbook">Playbook</a>
         <a href="#checklist">Checklist</a>
       </nav>
@@ -35,6 +54,8 @@
     <nav class="flex flex-col gap-2 text-sm text-zinc-600">
       <a href="#summary">Summary</a>
       <a href="#regions">Regions</a>
+      <a href="#map-section">Map</a>
+      <a href="#priorities">Priorities</a>
       <a href="#playbook">Playbook</a>
       <a href="#checklist">Checklist</a>
     </nav>
@@ -181,6 +202,201 @@
           <p class="text-sm text-zinc-600"><strong>Second choice:</strong> Kentucky Bluegrass fringe (if you want more rolling-pasture aesthetic and don't mind smaller "small town" feel).</p>
         </section>
 
+        <section id="map-section" class="scroll-mt-16">
+          <h2 class="text-2xl font-semibold mb-3">Interactive Map & Overlays</h2>
+          <p class="mb-4 text-zinc-700">Toggle layers to visualize hazard zones, Costco access ranges, and candidate regions. Click markers for details.</p>
+
+          <div class="layer-toggle" id="layer-toggle">
+            <button class="active" data-layer="regions">📍 Regions</button>
+            <button data-layer="costco">🛒 Costco (1hr drive)</button>
+            <button data-layer="flood">🌊 FEMA Flood Zones</button>
+            <button data-layer="seismic">quake Seismic Risk</button>
+            <button data-layer="fire">🔥 Wildfire Risk</button>
+            <button data-layer="soil">🌱 Soil Fertility</button>
+          </div>
+
+          <div id="map"></div>
+
+          <div class="mt-4 flex flex-wrap gap-x-6 gap-y-2 p-3 bg-white border border-zinc-200 rounded-lg">
+            <div class="legend-item"><span class="legend-dot" style="background:#22c55e"></span> Tier 1 — Strongest fit</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#f59e0b"></span> Tier 2 — Solid with caveats</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#3b82f6"></span> Costco location</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#93c5fd; opacity:0.5"></span> 1hr drive range</div>
+            <div class="legend-item"><span class="legend-swatch" style="background:#ef4444; opacity:0.3"></span> High hazard zone</div>
+            <div class="legend-item"><span class="legend-swatch" style="background:#86efac; opacity:0.4"></span> Prime farmland soil</div>
+          </div>
+
+          <p class="mt-3 text-xs text-zinc-500 italic">Flood, seismic, and wildfire overlays use USGS/FEMA WMS services. Soil layer uses NRCS SSURGO. Some layers may take a few seconds to load. Drive-time circles are approximate (60km radius).</p>
+        </section>
+
+        <section id="priorities" class="scroll-mt-16">
+          <h2 class="text-2xl font-semibold mb-3">Priority Decision Framework</h2>
+          <p class="mb-6 text-zinc-700">Three decision dimensions to narrow the search. Pick one option per row and tell me your preferences — I'll re-rank regions and adjust the search focus.</p>
+
+          <div class="space-y-8">
+
+            <div class="border border-zinc-300 rounded-lg p-5 bg-white shadow-sm">
+              <div class="flex items-center gap-3 mb-4">
+                <span class="text-2xl">🏡</span>
+                <div>
+                  <h3 class="font-semibold text-lg">Aesthetic Preference</h3>
+                  <p class="text-sm text-zinc-500">What landscape feels like home?</p>
+                </div>
+              </div>
+              <div class="grid sm:grid-cols-3 gap-3">
+                <label class="border border-zinc-200 rounded-lg p-3 cursor-pointer hover:border-zinc-400 transition" data-priority="aesthetic" data-value="pasture">
+                  <input type="radio" name="aesthetic" value="pasture" class="hidden peer" />
+                  <div class="peer-checked:border-emerald-500 peer-checked:bg-emerald-50 rounded-lg">
+                    <p class="font-medium text-sm mb-1">Rolling Pasture</p>
+                    <p class="text-xs text-zinc-500">Green rolling hills, stone fences, horse country. → <strong>KY Bluegrass</strong></p>
+                  </div>
+                </label>
+                <label class="border border-zinc-200 rounded-lg p-3 cursor-pointer hover:border-zinc-400 transition" data-priority="aesthetic" data-value="woods">
+                  <input type="radio" name="aesthetic" value="woods" class="hidden peer" />
+                  <div class="peer-checked:border-emerald-500 peer-checked:bg-emerald-50 rounded-lg">
+                    <p class="font-medium text-sm mb-1">Mixed Woods + Pasture</p>
+                    <p class="text-xs text-zinc-500">Timber stands, creeks, cleared patches. → <strong>Middle TN</strong></p>
+                  </div>
+                </label>
+                <label class="border border-zinc-200 rounded-lg p-3 cursor-pointer hover:border-zinc-400 transition" data-priority="aesthetic" data-value="flat">
+                  <input type="radio" name="aesthetic" value="flat" class="hidden peer" />
+                  <div class="peer-checked:border-emerald-500 peer-checked:bg-emerald-50 rounded-lg">
+                    <p class="font-medium text-sm mb-1">Flatter Open Land</p>
+                    <p class="text-xs text-zinc-500">Row-crop scale, big sky. → <strong>NC Piedmont / Central TX</strong></p>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <div class="border border-zinc-300 rounded-lg p-5 bg-white shadow-sm">
+              <div class="flex items-center gap-3 mb-4">
+                <span class="text-2xl">⚡</span>
+                <div>
+                  <h3 class="font-semibold text-lg">Critical Infrastructure</h3>
+                  <p class="text-sm text-zinc-500">What must the area have to work for your family?</p>
+                </div>
+              </div>
+              <div class="grid sm:grid-cols-2 gap-3">
+                <label class="border border-zinc-200 rounded-lg p-3 cursor-pointer hover:border-zinc-400 transition">
+                  <div class="flex items-start gap-2">
+                    <input type="checkbox" name="infra" value="fiber" class="mt-1" />
+                    <div>
+                      <p class="font-medium text-sm">Fiber Internet</p>
+                      <p class="text-xs text-zinc-500">Critical for remote work / streaming. Best in Middle TN pockets, KY Bluegrass corridor.</p>
+                    </div>
+                  </div>
+                </label>
+                <label class="border border-zinc-200 rounded-lg p-3 cursor-pointer hover:border-zinc-400 transition">
+                  <div class="flex items-start gap-2">
+                    <input type="checkbox" name="infra" value="hospital" class="mt-1" />
+                    <div>
+                      <p class="font-medium text-sm">Hospital within 30 min</p>
+                      <p class="text-xs text-zinc-500">All Tier 1 regions have regional hospitals within 30 min of target towns.</p>
+                    </div>
+                  </div>
+                </label>
+                <label class="border border-zinc-200 rounded-lg p-3 cursor-pointer hover:border-zinc-400 transition">
+                  <div class="flex items-start gap-2">
+                    <input type="checkbox" name="infra" value="schools" class="mt-1" />
+                    <div>
+                      <p class="font-medium text-sm">School district rating</p>
+                      <p class="text-xs text-zinc-500">KY Bluegrass fringe has strongest districts. TN varies by county.</p>
+                    </div>
+                  </div>
+                </label>
+                <label class="border border-zinc-200 rounded-lg p-3 cursor-pointer hover:border-zinc-400 transition">
+                  <div class="flex items-start gap-2">
+                    <input type="checkbox" name="infra" value="airport" class="mt-1" />
+                    <div>
+                      <p class="font-medium text-sm">Major airport within 90 min</p>
+                      <p class="text-xs text-zinc-500">Nashville (BNA), Lexington (LEX), Raleigh-Durham (RDU), Austin (AUS).</p>
+                    </div>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <div class="border border-zinc-300 rounded-lg p-5 bg-white shadow-sm">
+              <div class="flex items-center gap-3 mb-4">
+                <span class="text-2xl">👨‍👩‍👧‍👦</span>
+                <div>
+                  <h3 class="font-semibold text-lg">Distance from Extended Family</h3>
+                  <p class="text-sm text-zinc-500">How far are you willing to be from current family/friends?</p>
+                </div>
+              </div>
+              <div class="grid sm:grid-cols-3 gap-3">
+                <label class="border border-zinc-200 rounded-lg p-3 cursor-pointer hover:border-zinc-400 transition">
+                  <div class="flex items-start gap-2">
+                    <input type="radio" name="distance" value="close" class="mt-1" />
+                    <div>
+                      <p class="font-medium text-sm">Within 4 hours drive</p>
+                      <p class="text-xs text-zinc-500">Frequent visits, easy weekend trips.</p>
+                    </div>
+                  </div>
+                </label>
+                <label class="border border-zinc-200 rounded-lg p-3 cursor-pointer hover:border-zinc-400 transition">
+                  <div class="flex items-start gap-2">
+                    <input type="radio" name="distance" value="medium" class="mt-1" />
+                    <div>
+                      <p class="font-medium text-sm">4–8 hours (long weekend)</p>
+                      <p class="text-xs text-zinc-500">Monthly visits, holiday trips.</p>
+                    </div>
+                  </div>
+                </label>
+                <label class="border border-zinc-200 rounded-lg p-3 cursor-pointer hover:border-zinc-400 transition">
+                  <div class="flex items-start gap-2">
+                    <input type="radio" name="distance" value="far" class="mt-1" />
+                    <div>
+                      <p class="font-medium text-sm">8+ hours (fly or road trip)</p>
+                      <p class="text-xs text-zinc-500">Quarterly visits, full relocation mindset.</p>
+                    </div>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <div class="border border-zinc-300 rounded-lg p-5 bg-white shadow-sm">
+              <div class="flex items-center gap-3 mb-4">
+                <span class="text-2xl">🏠</span>
+                <div>
+                  <h3 class="font-semibold text-lg">Two Homes Strategy</h3>
+                  <p class="text-sm text-zinc-500">Existing structures vs. building new?</p>
+                </div>
+              </div>
+              <div class="grid sm:grid-cols-3 gap-3">
+                <label class="border border-zinc-200 rounded-lg p-3 cursor-pointer hover:border-zinc-400 transition">
+                  <div class="flex items-start gap-2">
+                    <input type="radio" name="structures" value="existing" class="mt-1" />
+                    <div>
+                      <p class="font-medium text-sm">Must have 2 existing</p>
+                      <p class="text-xs text-zinc-500">Rarest. Middle TN has the best inventory. Budget may stretch.</p>
+                    </div>
+                  </div>
+                </label>
+                <label class="border border-zinc-200 rounded-lg p-3 cursor-pointer hover:border-zinc-400 transition">
+                  <div class="flex items-start gap-2">
+                    <input type="radio" name="structures" value="adu" class="mt-1" />
+                    <div>
+                      <p class="font-medium text-sm">1 home + build ADU</p>
+                      <p class="text-xs text-zinc-500">More options. ADU/guest cottage ~$100–200K to build. Check zoning first.</p>
+                    </div>
+                  </div>
+                </label>
+                <label class="border border-zinc-200 rounded-lg p-3 cursor-pointer hover:border-zinc-400 transition">
+                  <div class="flex items-start gap-2">
+                    <input type="radio" name="structures" value="land" class="mt-1" />
+                    <div>
+                      <p class="font-medium text-sm">Buy land, build both</p>
+                      <p class="text-xs text-zinc-500">Most flexibility, longest timeline. Budget split: land ~$150–300K, builds ~$250K each.</p>
+                    </div>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
         <section id="playbook" class="scroll-mt-16">
           <h2 class="text-2xl font-semibold mb-3">Search Playbook</h2>
           <p class="mb-4">Hand this to a buyer's agent or run yourself on the sites:</p>
@@ -325,6 +541,243 @@
     const mobileNav = document.getElementById('mobile-nav');
     menuToggle.addEventListener('click', () => {
       mobileNav.classList.toggle('hidden');
+    });
+
+    // ====== LEAFLET MAP ======
+    const map = L.map('map').setView([36.5, -85.5], 6);
+
+    // Base layer — OpenStreetMap
+    const baseLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors',
+      maxZoom: 19
+    }).addTo(map);
+
+    // Satellite imagery toggle
+    const satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+      attribution: '&copy; Esri',
+      maxZoom: 19
+    });
+
+    // --- Region data ---
+    const regions = [
+      {
+        id: 'tn-mid',
+        name: 'Middle Tennessee',
+        tier: 1,
+        center: [36.15, -87.4],
+        counties: ['Dickson', 'Humphreys', 'Hickman', 'Maury'],
+        soil: 'Maury silt loam — exceptional fertility',
+        costco: '35–55 min to Nashville',
+        hazard: 'Low overall, moderate tornado',
+        color: '#22c55e',
+        bounds: [[35.9, -88.0], [36.5, -86.6]]
+      },
+      {
+        id: 'ky-bluegrass',
+        name: 'KY Bluegrass Edge',
+        tier: 1,
+        center: [38.05, -84.5],
+        counties: ['Bourbon', 'Scott', 'Woodford', 'Anderson', 'Shelby'],
+        soil: 'Maury/Pembroke silt loam — very productive',
+        costco: '40–60 min to Lexington',
+        hazard: 'Very low overall',
+        color: '#22c55e',
+        bounds: [[37.8, -85.3], [38.4, -84.0]]
+      },
+      {
+        id: 'va-piedmont',
+        name: 'VA Southside / Piedmont',
+        tier: 1,
+        center: [37.35, -78.9],
+        counties: ['Campbell', 'Appomattox', 'Charlotte', 'Halifax'],
+        soil: 'Cecil/Piedmont silt loams — moderately to highly productive',
+        costco: 'Lynchburg ~30 min',
+        hazard: 'Low-moderate',
+        color: '#22c55e',
+        bounds: [[36.9, -79.6], [37.7, -78.2]]
+      },
+      {
+        id: 'nc-piedmont',
+        name: 'NC Piedmont',
+        tier: 2,
+        center: [36.3, -79.0],
+        counties: ['Person', 'Caswell'],
+        soil: 'Cecil/Appling sandy loams — moderately productive',
+        costco: '~50 min to Durham',
+        hazard: 'Low overall',
+        color: '#f59e0b',
+        bounds: [[36.0, -79.5], [36.7, -78.6]]
+      },
+      {
+        id: 'tx-central',
+        name: 'Central Texas',
+        tier: 2,
+        center: [31.4, -96.8],
+        counties: ['McLennan', 'Brazos', 'Smith'],
+        soil: 'Blackland prairie — extremely fertile when managed',
+        costco: 'Waco / College Station / Tyler',
+        hazard: 'Moderate — flash flooding risk',
+        color: '#f59e0b',
+        bounds: [[30.8, -97.5], [32.2, -94.5]]
+      }
+    ];
+
+    // --- Costco locations ---
+    const costcos = [
+      { name: 'Costco — Nashville (Mt. Juliet)', coords: [36.22, -86.52] },
+      { name: 'Costco — Brentwood/Cool Springs', coords: [35.97, -86.78] },
+      { name: 'Costco — Lexington, KY', coords: [38.04, -84.51] },
+      { name: 'Costco — Louisville, KY', coords: [38.22, -85.57] },
+      { name: 'Costco — Lynchburg, VA', coords: [37.36, -79.27] },
+      { name: 'Costco — Durham, NC', coords: [35.98, -78.92] },
+      { name: 'Costco — Greensboro, NC', coords: [36.06, -79.87] },
+      { name: 'Costco — Waco, TX', coords: [31.46, -97.16] },
+      { name: 'Costco — College Station, TX', coords: [30.60, -96.31] },
+      { name: 'Costco — Tyler, TX', coords: [32.32, -95.30] }
+    ];
+
+    // --- Layer groups ---
+    const regionLayer = L.layerGroup();
+    const costcoLayer = L.layerGroup();
+    const floodLayer = L.layerGroup();
+    const seismicLayer = L.layerGroup();
+    const fireLayer = L.layerGroup();
+    const soilLayer = L.layerGroup();
+
+    // Build region markers + circles
+    regions.forEach(r => {
+      // Marker
+      const popup = `
+        <div style="min-width: 200px">
+          <strong style="font-size:14px">${r.name}</strong><br/>
+          <span style="color:${r.color}">Tier ${r.tier}</span><br/>
+          <hr style="margin:4px 0"/>
+          <b>Counties:</b> ${r.counties.join(', ')}<br/>
+          <b>Soil:</b> ${r.soil}<br/>
+          <b>Costco:</b> ${r.costco}<br/>
+          <b>Hazard:</b> ${r.hazard}
+        </div>`;
+      L.marker(r.center).bindPopup(popup).addTo(regionLayer);
+
+      // Region bounds highlight
+      L.rectangle(r.bounds, {
+        color: r.color,
+        weight: 2,
+        fillColor: r.color,
+        fillOpacity: 0.08,
+        dashArray: '5,5'
+      }).addTo(regionLayer);
+    });
+
+    // Build Costco markers + drive-time circles
+    costcos.forEach(c => {
+      L.circleMarker(c.coords, {
+        radius: 7,
+        color: '#1d4ed8',
+        fillColor: '#3b82f6',
+        fillOpacity: 0.8
+      }).bindPopup(`<b>${c.name}</b>`).addTo(costcoLayer);
+
+      // ~1hr drive approximation (60km radius)
+      L.circle(c.coords, {
+        radius: 60000,
+        color: '#3b82f6',
+        weight: 1,
+        fillColor: '#3b82f6',
+        fillOpacity: 0.05
+      }).addTo(costcoLayer);
+    });
+
+    // --- WMS Overlay Layers ---
+
+    // FEMA Flood Zones (National Flood Hazard Layer)
+    const femaFlood = L.tileLayer.wms('https://hazards.fema.gov/gis/nfhl/rest/services/public/NFHL/MapServer', {
+      layers: '0',
+      format: 'image/png',
+      transparent: true,
+      opacity: 0.5,
+      attribution: 'FEMA NFHL',
+      maxZoom: 19
+    });
+    floodLayer.addLayer(femaFlood);
+
+    // USGS Seismic Hazard
+    const usgsSeismic = L.tileLayer.wms('https://gis.usgs.gov/arcgis/services/nathaz/seismic/MapServer/WMSServer', {
+      layers: '2',
+      format: 'image/png',
+      transparent: true,
+      opacity: 0.5,
+      attribution: 'USGS',
+      maxZoom: 19
+    });
+    seismicLayer.addLayer(usgsSeismic);
+
+    // USFS Wildfire Hazard Potential
+    const usfsFire = L.tileLayer.wms('https://gis1.usgs.gov/arcgis/services/nathaz/wildfire/MapServer/WMSServer', {
+      layers: '0',
+      format: 'image/png',
+      transparent: true,
+      opacity: 0.5,
+      attribution: 'USFS WHP',
+      maxZoom: 19
+    });
+    fireLayer.addLayer(usfsFire);
+
+    // Soil fertility — using Esri's USDA SSURGO service
+    const soilFertility = L.tileLayer.wms('https://services.arcgis.com/eUD9YrR6LvPnO5fK/arcgis/rest/services/USDA_Soil_Survey_Geographic/MapServer', {
+      layers: '0',
+      format: 'image/png',
+      transparent: true,
+      opacity: 0.4,
+      attribution: 'NRCS SSURGO',
+      maxZoom: 19
+    });
+    soilLayer.addLayer(soilFertility);
+
+    // Add default layer
+    regionLayer.addTo(map);
+
+    // --- Layer toggle logic ---
+    const layerMap = {
+      regions: regionLayer,
+      costco: costcoLayer,
+      flood: floodLayer,
+      seismic: seismicLayer,
+      fire: fireLayer,
+      soil: soilLayer
+    };
+
+    document.querySelectorAll('#layer-toggle button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const layerKey = btn.dataset.layer;
+        const layer = layerMap[layerKey];
+        if (map.hasLayer(layer)) {
+          map.removeLayer(layer);
+          btn.classList.remove('active');
+        } else {
+          map.addLayer(layer);
+          btn.classList.add('active');
+        }
+      });
+    });
+
+    // --- Priority selection persistence (localStorage) ---
+    document.querySelectorAll('#priorities input[type="radio"], #priorities input[type="checkbox"]').forEach(input => {
+      // Load saved state
+      const saved = localStorage.getItem('priority_' + input.name + '_' + input.value);
+      if (saved === 'true') input.checked = true;
+
+      input.addEventListener('change', () => {
+        if (input.type === 'checkbox') {
+          localStorage.setItem('priority_' + input.name + '_' + input.value, input.checked);
+        } else if (input.checked) {
+          // Clear siblings
+          document.querySelectorAll(`input[name="${input.name}"]`).forEach(sib => {
+            localStorage.removeItem('priority_' + input.name + '_' + sib.value);
+          });
+          localStorage.setItem('priority_' + input.name + '_' + input.value, 'true');
+        }
+      });
     });
   </script>
 </body>
