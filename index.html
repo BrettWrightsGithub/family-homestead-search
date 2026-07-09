@@ -690,49 +690,57 @@
 
     // --- WMS Overlay Layers ---
 
-    // FEMA Flood Zones (National Flood Hazard Layer)
-    const femaFlood = L.tileLayer.wms('https://hazards.fema.gov/gis/nfhl/rest/services/public/NFHL/MapServer', {
-      layers: '0',
-      format: 'image/png',
-      transparent: true,
-      opacity: 0.5,
-      attribution: 'FEMA NFHL',
-      maxZoom: 19
-    });
-    floodLayer.addLayer(femaFlood);
+    // Helper to add error logging
+    function addErrorLogging(layer, name) {
+      layer.on('tileerror', (error) => {
+        console.warn(`Failed to load ${name} tile:`, error);
+      });
+      layer.on('load', () => {
+        console.log(`${name} layer loaded successfully`);
+      });
+    }
 
-    // USGS Seismic Hazard
-    const usgsSeismic = L.tileLayer.wms('https://gis.usgs.gov/arcgis/services/nathaz/seismic/MapServer/WMSServer', {
-      layers: '2',
+    // USGS Seismic Hazard (WMS)
+    const usgsSeismic = L.tileLayer.wms('https://earthquake.usgs.gov/arcgis/services/haz/US1hz050_2014/MapServer/WMSServer', {
+      layers: '1', // Layer 1 = US1hz050 (contours)
       format: 'image/png',
       transparent: true,
-      opacity: 0.5,
+      opacity: 0.6,
       attribution: 'USGS',
       maxZoom: 19
     });
+    addErrorLogging(usgsSeismic, 'USGS Seismic');
     seismicLayer.addLayer(usgsSeismic);
 
-    // USFS Wildfire Hazard Potential
-    const usfsFire = L.tileLayer.wms('https://gis1.usgs.gov/arcgis/services/nathaz/wildfire/MapServer/WMSServer', {
-      layers: '0',
+    // USFS Wildfire Hazard Potential (WMS)
+    const usfsFire = L.tileLayer.wms('https://imagery.geoplatform.gov/iipp/rest/services/Fire_Aviation/USFS_EDW_RMRS_WRC_WildfireHazardPotential/ImageServer/WMSServer', {
+      layers: '',
       format: 'image/png',
       transparent: true,
-      opacity: 0.5,
+      opacity: 0.6,
       attribution: 'USFS WHP',
-      maxZoom: 19
+      maxZoom: 17
     });
+    addErrorLogging(usfsFire, 'USFS Wildfire');
     fireLayer.addLayer(usfsFire);
 
-    // Soil fertility — using Esri's USDA SSURGO service
-    const soilFertility = L.tileLayer.wms('https://services.arcgis.com/eUD9YrR6LvPnO5fK/arcgis/rest/services/USDA_Soil_Survey_Geographic/MapServer', {
+    // Soil fertility (NRCS SSURGO WMS)
+    const soilFertility = L.tileLayer.wms('https://services1.arcgis.com/znO8Hz1SuVVohYhZ/arcgis/services/Soils_NRCS/MapServer/WMSServer', {
       layers: '0',
       format: 'image/png',
       transparent: true,
-      opacity: 0.4,
+      opacity: 0.6,
       attribution: 'NRCS SSURGO',
-      maxZoom: 19
+      maxZoom: 18
     });
+    addErrorLogging(soilFertility, 'NRCS Soil');
     soilLayer.addLayer(soilFertility);
+
+    // Skip FEMA flood layer (WMS endpoints broken)
+    const femaFlood = L.tileLayer('', {
+      attribution: 'FEMA NFHL — see <a href="https://www.fema.gov/flood-maps/national-flood-hazard-layer" target="_blank">FEMA.gov</a> for viewer'
+    });
+    floodLayer.addLayer(femaFlood);
 
     // Add default layer
     regionLayer.addTo(map);
