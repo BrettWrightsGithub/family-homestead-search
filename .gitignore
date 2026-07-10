@@ -5,3 +5,18 @@ dist/
 .env
 .DS_Store
 Thumbs.db
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Caches
+.cache/
+*.tmp
+
+# OS files
+.AppleDouble
+.LSOverride
